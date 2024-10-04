@@ -8,8 +8,8 @@
 //    http://www.boost.org/LICENSE_1_0.txt)
 //
 #pragma once
-#pragma warning( push )
-#pragma warning( disable : 4530 4668)
+//#pragma warning( push )
+//#pragma warning( disable : 4530 4668)
 #pragma push_macro("CONSTEXPR")
 #undef CONSTEXPR
 #pragma push_macro("dynamic_cast")
@@ -30,12 +30,8 @@
 #include "HAL/Platform.h"
 
 #if PLATFORM_WINDOWS
-#if ENGINE_MAJOR_VERSION == 5 && ENGINE_MINOR_VERSION >= 5
-#include "Windows/AllowWindowsPlatformTypes.h"
-#else
 //#include "Windows/AllowWindowsPlatformTypes.h"
 #include "Windows/PreWindowsApi.h"
-#endif
 #endif
 #include "msgpack/object.hpp"
 #include "msgpack/iterator.hpp"
@@ -52,13 +48,9 @@
 #include "msgpack/type.hpp"
 
 #if PLATFORM_WINDOWS
-#if ENGINE_MAJOR_VERSION == 5 && ENGINE_MINOR_VERSION >= 5
-#include "Windows/HideWindowsPlatformTypes.h"
-#else
 
 #include "Windows/PostWindowsApi.h"
 //#include "Windows/HideWindowsPlatformTypes.h"
-#endif
 #endif
 //THIRD_PARTY_INCLUDES_END
 
@@ -71,4 +63,4 @@
 #pragma pop_macro("std::bad_cast")
 #pragma pop_macro("dynamic_cast")
 #pragma pop_macro("CONSTEXPR")
-#pragma warning( pop )
+//#pragma warning( pop )

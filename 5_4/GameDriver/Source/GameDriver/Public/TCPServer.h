@@ -51,6 +51,8 @@ public:
 	virtual bool Init() override;
 	virtual uint32 Run() override;
 
+	void CompressData(uint8* tocompress, std::stringstream& ss2, uint32_t& size, uint8*& data, uint32& calcCrc);
+
 	void removeDeadClient(FSocket*& Client);
 
 	virtual void Stop() override

@@ -18,6 +18,8 @@
 #include <Editor/DetailsCommon.h>
 
 
+namespace GameDriverColumns { struct IColumn; }
+
 namespace SlateColumns
 {
 	static const FName Type("Type");
@@ -50,22 +52,18 @@ class SlateExplorerToolPanel : public SCompoundWidget
 
 		SLATE_END_ARGS()
 
-		FReply refreshWorldSource();
-
-		void loadUpChildren(TSharedPtr<SlateObjectHolder> ttt);
-
+		void refreshWorldSource();
+		void ExpandSlateExplorerItem(TSharedPtr<SlateObjectHolder>& fella);
+		FReply refreshWorldSourceClick();
+		void loadUpChildren(TSharedPtr<SlateObjectHolder> ttt,int level,TArray<TSharedPtr<SlateObjectHolder>>* matchingFellers);
+		void printDebug(int level, UObject* name);
 		void Construct(const FArguments& InArgs);
 
 		void TickWorld(UWorld* World, ELevelTick TickType, float DeltaSeconds);
 	void MakeDetailSubMenu(FMenuBuilder& menuBuilder);
 	void MakeDetailSubMenuNoDetail(FMenuBuilder& menuBuilder);
-	bool SelfOrChildrenContain(UObject* o, FString s);
+	bool SelfOrChildrenContain(UObject* o, FString s, int level);
 	~SlateExplorerToolPanel();
-	TSharedRef<ITableRow> OnGenerateRowForField(TSharedPtr<FString> InItem, const TSharedRef<STableViewBase>& OwnerTable);
-
-	TSharedRef<ITableRow> OnGenerateRowForMethod(TSharedPtr<FString> InItem, const TSharedRef<STableViewBase>& OwnerTable);
-	void OnFieldSelectionChanged(TSharedPtr < FString>  Entry, ESelectInfo::Type SelectInfo);
-	void OnMethodSelectionChanged(TSharedPtr < FString>  Entry, ESelectInfo::Type SelectInfo);
 	void RegisterSubMenu(UToolMenu* InMenu, FToolMenuSection* InSection);
 public:
 	int numUserWidgets = 0;
@@ -79,18 +77,10 @@ public:
 	void DetailCommandDetails();
 	void DetailCommandRelative();
 	void MapCommands();
-	void ClearLists();
 FString InjectBold(FString raw, bool& wasFound);
-	bool isTypeValid(FProperty* p);
-	FString GetCSharpType(FProperty* p);
-	void FilterFields();
-	void FilterMethods();
+
 	void FilterWidgets();
-	void RefreshExtraDetailsPanel(bool comp=false);
-	void OnSearchTextCommitted(const FText& InFilterText, ETextCommit::Type CommitType);
-	void OnSearchTextChanged(const FText& InFilterText);
-	void OnMethodSearchTextCommitted(const FText& InFilterText, ETextCommit::Type CommitType);
-	void OnMethodSearchTextChanged(const FText& InFilterText);
+
 	void OnWidgetSearchTextCommitted(const FText& InFilterText, ETextCommit::Type CommitType);
 	void OnWidgetSearchTextChanged(const FText& InFilterText);
 	// Generate a row widget for an item
@@ -102,6 +92,8 @@ FString InjectBold(FString raw, bool& wasFound);
 	void SetExpansionRecursive(TSharedPtr<SlateObjectHolder>  InElement, bool bShouldBeExpanded);
 
 protected:
+	bool refreshing;
+	TSharedPtr<DetailsCommonToolPanel> CommonPanel;
 	FTimerHandle RefreshingTimerHandle;
 	UObject* lockedObject;
 	UActorComponent* lockedComponent;
@@ -124,14 +116,9 @@ protected:
 
 	//search related fields
 	TSharedPtr<SSearchBox> SearchBox;
-	TSharedPtr<SSearchBox> MethodSearchBox;
-	//TSharedPtr<TTextFilter<const FString&>> SearchTextFilter;
-	FString SearchedText;
-	FString MethodSearchedText;
+
 	FString WidgetSearchedText;
 
-	TSharedPtr< SListView< TSharedPtr<FString> > > FieldViewWidget;
-	TSharedPtr< SListView< TSharedPtr<FString> > > MethodViewWidget;
 
 	/** The first actor in the currently selected objects */
 	UObject* SelectedWidget;

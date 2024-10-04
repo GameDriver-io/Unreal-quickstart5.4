@@ -24,6 +24,16 @@
 #else
 	#define MAKETIME(X) std::timespec_get(&X, TIME_UTC);
 #endif
+
+enum LogModules {
+	NONE = 0,
+	EDITOR = 1,
+	NETWORKING = 2,
+	HPATH = 4,
+	VR = 8,
+	INPUTS = 16,
+	AGENT = 32
+};
 class FGameDriverModule : public IModuleInterface
 {
 public:
@@ -31,16 +41,19 @@ public:
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;
+	void EnteringEditorMode(const bool InIsSimulating);
 	void OnWorldPostInitialization(UWorld* World, const UWorld::InitializationValues InitializationValues);
 	void OnWorldCleanup(UWorld* World, bool SessionEnded, bool CleanupResources);
 	void TickWorld(UWorld* World, ELevelTick TickType, float DeltaSeconds);
 	void HandleWebSocketData(const void* Data, SIZE_T Length, SIZE_T BytesRemaining);
-	
+	GAMEDRIVER_API static bool ShouldLog(LogModules module = NONE);
 	static ChannelQueue<ProtocolMessage*> InMessageQueue;
 	static ChannelQueue<ProtocolMessage*> OutMessageQueue;
 	GDIOAgent* getAgent();
 	TSharedPtr<IXRTrackingSystem, ESPMode::ThreadSafe> oldXR;
 	GAMEDRIVER_API static bool traceLogging;
+	GAMEDRIVER_API static int recursionLimit;
+	GAMEDRIVER_API static int traceModules;
 	GAMEDRIVER_API static int websocketRetryCount;
 	GAMEDRIVER_API static int websocketRetryTime;
 private:
@@ -49,6 +62,7 @@ private:
 	FTCPServer* SocketListener = NULL;
 	FDelegateHandle OnWorldPostInitializationHandle;
 	FDelegateHandle OnWorldCleanupHandle;
+	FDelegateHandle EnteringEditorModeHandle;
 	GDIOAgent* Agent = NULL;
 	bool cleanup;
 	bool m_UseWebSockets = false;

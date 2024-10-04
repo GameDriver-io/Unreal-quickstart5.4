@@ -39,6 +39,8 @@ public:
 	bool noPanel = true;
 	bool licenceValid = false;
 		//The IInputProcessor
+
+	int Reset();
 #if ENGINE_MAJOR_VERSION == 4
 	SharedPointerInternals::FRawPtrProxy< FGDIOInput > inputProcessor = NULL;
 #else

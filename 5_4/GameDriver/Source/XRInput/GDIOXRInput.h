@@ -70,6 +70,7 @@ public:
 	GDIOXRINPUT_API void SetValueForKey(FKey ip, float value, EInputEvent state);
 	GDIOXRINPUT_API void ProcessInputVector2D(FKey ip, FVector2D* value, APlayerController* pc);
 	GDIOXRINPUT_API void ProcessInputVector3D(FKey ip, FVector* value, APlayerController* pc);
+	GDIOXRINPUT_API void Reset();
 #if ENGINE_MAJOR_VERSION == 4
 	static  const UInputAction* findAction(FString needle);
 #else
@@ -102,10 +103,7 @@ class GDIOXRInput : public IInputDevice,
 		//friend class FOculusHandTracking;
 
 	public:
-		GDIOXRINPUT_API GDIOXRInput(FGdioHMD* hmd) {
-			HMD = hmd; 
-			keyStates	= new FBasicStateManagement();
-		}
+		GDIOXRINPUT_API GDIOXRInput(FGdioHMD* hmd);
 		
 		// Inherited via IInputDevice
 		GDIOXRINPUT_API void Tick(float DeltaTime) override;

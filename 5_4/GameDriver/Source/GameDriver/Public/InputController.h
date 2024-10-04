@@ -57,6 +57,7 @@ public:
 	int GetActiveTouches();
 	void AddOrUpdate(FString strKey, int64 frames, KeyTypeEnum kt, FVector2D* position = NULL, FVector2D* destinationPosition = NULL, float depressedValue = 1.0f, bool gamePad = false, int t = 1, int delay =0);
 	void Update();
+	void Reset();
 	UWorld* World = NULL;
 	GDIOAgent* Agent = NULL;
 	 std::map<FString, InternalState*>* KeyState;// = new std::map<std::string, InternalState>();

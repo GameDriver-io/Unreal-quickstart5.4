@@ -15,9 +15,7 @@
 	"Installed": true,
 	"SupportedTargetPlatforms": [
 		"Win64",
-		"Android",
-		"Mac",
-		"IOS"
+		"Android", "Mac","IOS"
 	],
 	"Modules": [
 		{

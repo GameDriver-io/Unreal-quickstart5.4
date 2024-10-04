@@ -11,6 +11,7 @@
 #include "HierarchyPathHelper.h"
 
 #include "GDIOTypes.h"
+#include "Layout/Geometry.h"
 THIRD_PARTY_INCLUDES_START
 #include <optional>
 #include "../../../../ThirdParty/linqcpp/include/linqcpp/linqcpp.h"
@@ -125,8 +126,8 @@ public:
 };
 
 
-//  7		 8		 9			  10                11			12			13		14      15,		16,			 17,			18	19			20		21			22				23			24		25			26			27			28			29
-#define VARIANT_LIST    UObject, AActor, StoreResult, StoreResultArgs, StringList, ObjectList, Type, FVector, FQuat, FVector2D, TouchInputControl, Hit, IntList, FloatList, DoubleList,FLinearColor, FTransform,StructHolder, VectorList, MapIntPrim, MapPrimPrim
+//  7		 8		 9			  10                11			12			13		14      15,		16,			 17,			18	19			20		21			22				23			24		25			26			27			28			29, 30
+#define VARIANT_LIST    UObject, AActor, StoreResult, StoreResultArgs, StringList, ObjectList, Type, FVector, FQuat, FVector2D, TouchInputControl, Hit, IntList, FloatList, DoubleList,FLinearColor, FTransform,StructHolder, VectorList, MapIntPrim, MapPrimPrim, FGeometry
 template<typename... Args>
 using makePtrVariant_t = std::variant<String, int, float, bool, double, size_t, int64, std::add_pointer_t<Args>...>;
 using HPathVariant = makePtrVariant_t<VARIANT_LIST>;
@@ -210,7 +211,7 @@ HPathVariant* GetStructFieldValue(StructHolder* sh, FString fieldName);
 HPathVariant* GetObjectFieldValue(UObject* obj, FString fieldName);
 
 HPathVariant* GetPropertyValue(FProperty* prop, UObject* obj, bool& retFlag);
-
+void PrintTree(std::list<HPathVariant*>* tree);
 
 template <typename KeyType, typename ValueType> 
 void* processMapPropertyIntoMapPrim(FMapProperty* mapProperty, UObject* obj);

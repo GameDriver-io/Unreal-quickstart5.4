@@ -16,6 +16,7 @@ public:
     FLinearColor* ToLinearColor() { return new FLinearColor(r, g, b, a); }
 };
 
+
 class Vector3 {
 public:
 	Vector3() { x = 0; y = 0; z = 0; };
@@ -42,7 +43,16 @@ public:
 	FVector2D* ToFVector2D() { return new FVector2D(x, y); }
 };
 
-
+class Geometry
+{
+public:
+    Geometry(FVector2D AbsPosition, FVector2D AbsSize, FVector2D LocSize, double scale) { AbsolutePosition = Vector2(AbsPosition); AbsoluteSize = Vector2(AbsSize); LocalSize = Vector2(LocSize); Scale = scale; };
+    Vector2 AbsolutePosition = Vector2();
+    Vector2 AbsoluteSize = Vector2();
+    Vector2 LocalSize = Vector2();
+    double Scale;
+    MSGPACK_DEFINE_MAP(AbsolutePosition, AbsoluteSize, LocalSize, Scale);
+};
 class Quaternion {
 public:
 	Quaternion() { x = 0; y = 0; z = 0; w = 0; };
@@ -180,6 +190,10 @@ public:
     /// </summary>
     std::string hierarchyPath = "";
     /// <summary>
+   /// The HierarchyPath to the GameObject.
+   /// </summary>
+    std::string hierarchyPath2 = "";
+    /// <summary>
     /// A list of the Component Types associated with the object.
     /// </summary>
     std::list<LiteComponent> Components = std::list<LiteComponent>();
@@ -187,7 +201,7 @@ public:
     /// Position, rotation, and scale of the object.
     /// </summary>
     Transform transform;
-   MSGPACK_DEFINE_MAP(name,instanceId,tag,activeSelf,sceneName,scenePath,sceneId, hashCode,parentHashCode, position, localPosition,rotation,typeFullName, hierarchyPath, Components);
+   MSGPACK_DEFINE_MAP(name,instanceId,tag,activeSelf,sceneName,scenePath,sceneId, hashCode,parentHashCode, position, localPosition,rotation,typeFullName, hierarchyPath, hierarchyPath2, Components);
 };
 
 

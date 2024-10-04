@@ -11,10 +11,12 @@
 #include "IXRTrackingSystem.h" 
 #include "UnrealClient.h"
 #include "Engine/GameViewportClient.h"
+#include "Engine/World.h"
 
 class FSlateApplication;
 class FSlateUser;
 class FViewPort;
+
 struct FInputEvent;
 struct FAnalogInputEvent;
 struct FKeyEvent;
@@ -133,7 +135,7 @@ public:
 	GAMEDRIVER_API FGDIOInput(IprintInterface*);
 
 	/** Dtor */
-	~FGDIOInput() { activeViewport = NULL; };
+	~FGDIOInput();// { activeViewport = NULL; };
 
 	UInputMappingContext* GetActiveContext();
 	void HandleEnhancedPlayerInputMappings(UEnhancedPlayerInput* PlayerInput);
@@ -171,7 +173,10 @@ public:
 	FString GetGoodValue(TArray<FString>* possibleKeys, EInputActionValueType type);
 
 	FString GetPrintableVRDirection(FQuat rawQuat, FXRMotionControllerData* q,bool transform);//used to handle VR offsets from device in some unreal versions. 
+	void OnWorldPostInitialization(UWorld* World, const UWorld::InitializationValues InitializationValues);
 protected:
+
+	FDelegateHandle OnWorldPostInitializationHandle;
 	UWorld *World;
 	bool everoutputVR = false;
 	bool setupComplete = false;

@@ -79,3 +79,4 @@ void GetPanelWidgetChildren(UPanelWidget* Actor, TArray<UObject*>* actors, bool 
 void GetWidgetChildren(UWidget* Actor, TArray<UObject*>* actors,bool onlyfirst);
 void GetDynamicWidgetChildren(UDynamicEntryBoxBase* panelWidget, TArray<UObject*>* actors, bool onlyFirst);
 void GetRecursivelyAttachedActors(AActor* Actor, TArray< AActor* >& OutActors);
+bool PlayerController_SetMouseScrollState(APlayerController* PlayerController, FKey buttonId, EInputEvent Event, FVector2D* newLocationRaw, double delta);
